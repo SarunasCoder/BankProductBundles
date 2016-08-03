@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>ProductBundles</title>
+</head>
+<body>
+    <script src="/Scripts/jquery-2.1.4.min.js"></script>
+    
+    <div id="divUserInfo">
+        <h2>User information</h2>
+        <div>
+            <label for="inputAge"><strong>Age:</strong></label>
+            <input required type="number" id="inputAge" name="inputAge" value="" />
+        </div>
+        <br />
+        <div>
+            <label for="cbStudent"><strong>Student:</strong></label>
+            <input type="checkbox" id="cbStudent" name="cbStudent" />
+        </div>
+        <br />
+        <div>
+            <label for="inputIncome"><strong>Income:</strong></label>
+            <input type="number" id="inputIncome" name="inputIncome" value="" />
+        </div>
+        <br />
+
+        <input type="button" value="Get best bundle offer" onclick="getBundle()" />
+    </div>
+    <div id="divProducts" style="display:none;">
+        <input type="hidden" name="userID" id="userID">
+        <h3>Your age is: <span id="spanAge" /></h3>
+        <h3>You are: <span id="spanStudent" /></h3>
+        <h3>Your income is: <span id="spanIncome" /></h3>
+        <h2>Best bundle for you is: <span id="spanBundle" /></h2>
+        <p>Your products:</p>
+        <ul id="userProducts"></ul>
+        <input type="button" value="Confirm products" onclick="getBundleConfirmation()" />
+        <h2 id="hMessage"></h2>
+        <p>Other products:</p>
+        <ul id="otherProducts"></ul>
+    </div>
+    
+    <script type="text/javascript">
+ 
+        function getBundle() {
+      
+            var age = 0;
+            var student = 0;
+            var income = 0;
+
+            if ($('#inputAge').val() != '') age = $('#inputAge').val();
+            if ($('#cbStudent').is(":checked")) student = 1;
+            if ($('#inputIncome').val() != '') income = $('#inputIncome').val();
+
+            $.ajax({
+                type: "POST",
+                url: "/api/Bundles/" + age + '/' + student + '/' + income,
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    $('#userID').val(data.Root.UserID);
+                    $('#spanAge').text(data.Root.Age);
+                    if (data.Root.Student == "1")
+                        $('#spanStudent').text("Student");
+                    else
+                        $('#spanStudent').text("Not Student");
+                    $('#spanIncome').text(data.Root.Income);
+                    $('#spanBundle').text(data.Root.Bundle);
+
+                    $('#divUserInfo').hide();
+                    $('#divProducts').show();
+
+                    fillProductList(data);
+                }
+            });
+        }
+
+        function addProduct(prodId) {
+            var userId = $('#userID').val();
+            $('#userProducts').empty();
+            $('#otherProducts').empty();
+            $.ajax({
+                type: "POST",
+                url: "/api/Products/" + userId + '/' + prodId,
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    fillProductList(data);
+                }
+            });
+        }
+
+        function removeProduct(prodId) {
+            var userId = $('#userID').val();
+            $('#userProducts').empty();
+            $('#otherProducts').empty();
+            $.ajax({
+                type: "DELETE",
+                url: "/api/Products/" + userId + '/' + prodId,
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    fillProductList(data);
+                }
+            });
+        }
+
+        function fillProductList(data)
+        {
+            if (data.Root.UserProducts != null) {
+                if (data.Root.UserProducts.UserProduct.length != undefined && data.Root.UserProducts.UserProduct.length > 1)
+                    $.each(data.Root.UserProducts.UserProduct, function (key, item) {
+                        $('<li>' + item.ProductName + ' <input type="button" value="Remove" onclick="removeProduct(' + item.Id + ')"></li><br />').appendTo($('#userProducts'));
+                    });
+                else
+                    $('<li>' + data.Root.UserProducts.UserProduct.ProductName + ' <input type="button" value="Remove" onclick="removeProduct(' + data.Root.UserProducts.UserProduct.Id + ')"></li><br />').appendTo($('#userProducts'));
+            }
+
+            if (data.Root.Products != null) {
+                if (data.Root.Products.Product.length != undefined && data.Root.Products.Product.length > 1)
+                    $.each(data.Root.Products.Product, function (key, item) {
+                        $('<li>' + item.ProductName + ' <input type="button" value="Add" onclick="addProduct(' + item.Id + ')"></li><br />').appendTo($('#otherProducts'));
+                    });
+                else
+                    $('<li>' + data.Root.Products.Product.ProductName + ' <input type="button" value="Add" onclick="addProduct(' + data.Root.Products.Product.Id + ')"></li><br />').appendTo($('#otherProducts'));
+            }
+        }
+
+        function getBundleConfirmation() {
+            var userId = $('#userID').val();
+
+            $.getJSON("/api/Bundles/" + userId)
+                .done(function (data) {
+                    $('#hMessage').text(data);
+                })
+                .fail(function (data) {
+                    $('#hMessage').text('Error: ' + data.responseJSON);
+                });
+        }
+
+    </script>
+
+</body>
+</html>

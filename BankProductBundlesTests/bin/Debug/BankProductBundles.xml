@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BankProductBundles</name>
+    </assembly>
+    <members>
+        <member name="T:BankProductBundles.Controllers.BundlesController">
+            <summary> 
+            This class exposes actions with bank product bundles
+            </summary>
+        </member>
+        <member name="M:BankProductBundles.Controllers.BundlesController.PostBundle(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            This method from provided user information offers the best product bundle for him
+            </summary>
+            <remarks>
+            By provided user information, method uses DB stored procedure <note type="important">stp_GetBundle</note> 
+            to save user's information and best bundle for him. And then returns bundle's products.
+            </remarks>
+            <param name="age">User age</param>
+            <param name="student">Is user a student information (1-yes, 0-no)</param>
+            <param name="income">User income</param>
+            <returns>A HttpResponseMessage with a HttpStatusCode, the best bundle's products and all other products</returns>
+        </member>
+        <member name="M:BankProductBundles.Controllers.BundlesController.GetBundleConfirm(System.Int32)">
+            <summary>
+            This method confirms if user's selected products are valid for him
+            </summary>
+            <remarks>
+            By provided user Id, method uses DB stored procedure <note type="important">stp_GetUserInfo</note> 
+            to get information
+            about the user and his selected products. And then confirm if all selected products are
+            valid for him.
+            </remarks>
+            <param name="id">The Id of the user, whose selected products must be confirmed</param>
+            <exception cref="T:System.Exception">
+            This is thrown if the UserID node in retXml parameter is null.
+            </exception>
+            <returns>A HttpResponseMessage with a HttpStatusCode and bundle confirmation message</returns>
+        </member>
+        <member name="T:BankProductBundles.Controllers.ProductsController">
+            <summary> 
+            This class exposes actions with bank products
+            </summary>
+        </member>
+        <member name="M:BankProductBundles.Controllers.ProductsController.PostProduct(System.Int32,System.Int32)">
+            <summary>
+            This method adds product to user's bundle
+            </summary>
+            <remarks>
+            This method uses DB stored procedure <note type="important">stp_AddProduct</note> 
+            to add a product for a User in DB. And then returns selected and not selected products.
+            </remarks>
+            <param name="userId">User Id</param>
+            <param name="productId">Product Id</param>
+            <returns>A HttpResponseMessage with a HttpStatusCode and user's selected and not selected products</returns>
+        </member>
+        <member name="M:BankProductBundles.Controllers.ProductsController.DeleteProduct(System.Int32,System.Int32)">
+            <summary>
+            This method removes product from user's bundle
+            </summary>
+            <remarks>
+            This method uses DB stored procedure <note type="important">stp_RemoveProduct</note> 
+            to remove a product for a User in DB. And then returns selected and not selected products.
+            </remarks>
+            <param name="userId">User Id</param>
+            <param name="productId">Product Id</param>
+            <returns>A HttpResponseMessage with a HttpStatusCode and user's selected and not selected products</returns>
+        </member>
+        <member name="T:BankProductBundles.Controls.DBLib">
+            <summary> 
+            This helper class exposes actions with local DB
+            </summary>
+        </member>
+        <member name="M:BankProductBundles.Controls.DBLib.AddProcedure(System.String)">
+            <summary>
+            Defines stored procedure to execute
+            </summary>
+            <param name="procName">The stored procedure name to execute</param>
+        </member>
+        <member name="M:BankProductBundles.Controls.DBLib.AddParameter(System.String,System.Data.SqlDbType,System.Object)">
+            <summary>
+            Defines stored procedure's parameter
+            </summary>
+            <param name="paramName">Parameter name</param>
+            <param name="dbType">Parameter DB data type</param>
+            <param name="paramValue">Parameter value</param>
+        </member>
+        <member name="M:BankProductBundles.Controls.DBLib.GetResultAsXmlDocument">
+            <summary>
+            Gets sotred procedure result in Xml
+            </summary>
+            <returns>DB result from stored procedure in XmlDocument</returns>
+        </member>
+        <member name="T:BankProductBundles.Models.Product">
+            <summary>
+            This model class defines Product structure
+            </summary>
+        </member>
+        <member name="P:BankProductBundles.Models.Product.Id">
+            <summary>
+            Product Id
+            </summary>
+        </member>
+        <member name="P:BankProductBundles.Models.Product.Name">
+            <summary>
+            Product name
+            </summary>
+        </member>
+        <member name="P:BankProductBundles.Models.Product.Type">
+            <summary>
+            Product type
+            </summary>
+        </member>
+        <member name="P:BankProductBundles.Models.Product.AgeFrom">
+            <summary>
+            Product's min age
+            </summary>
+        </member>
+        <member name="P:BankProductBundles.Models.Product.AgeTo">
+            <summary>
+            Product's max age
+            </summary>
+        </member>
+        <member name="P:BankProductBundles.Models.Product.Student">
+            <summary>
+            Product for student
+            </summary>
+            <value>Value meanings: 1-only for students, 0-only for non students,
+            -1-for students and non students</value>
+        </member>
+        <member name="P:BankProductBundles.Models.Product.Income">
+            <summary>
+            Product's min income
+            </summary>
+        </member>
+        <member name="T:BankProductBundles.Models.ProdType">
+            <summary>
+            Type of the Product
+            </summary>
+        </member>
+        <member name="F:BankProductBundles.Models.ProdType.Account">
+            <summary>
+            Account type of the Product
+            </summary>
+        </member>
+        <member name="F:BankProductBundles.Models.ProdType.Card">
+            <summary>
+            Card type of the Product
+            </summary>
+        </member>
+    </members>
+</doc>

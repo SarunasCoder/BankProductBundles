@@ -1,0 +1,15 @@
+C:\Testing\BankProductBundles\BankProductBundles\bin\BankProductBundles.dll.config
+C:\Testing\BankProductBundles\BankProductBundles\bin\BankProductBundles.dll
+C:\Testing\BankProductBundles\BankProductBundles\bin\BankProductBundles.pdb
+C:\Testing\BankProductBundles\BankProductBundles\bin\Newtonsoft.Json.dll
+C:\Testing\BankProductBundles\BankProductBundles\bin\System.Net.Http.Formatting.dll
+C:\Testing\BankProductBundles\BankProductBundles\bin\System.Web.Http.dll
+C:\Testing\BankProductBundles\BankProductBundles\bin\System.Web.Http.WebHost.dll
+C:\Testing\BankProductBundles\BankProductBundles\bin\Newtonsoft.Json.xml
+C:\Testing\BankProductBundles\BankProductBundles\bin\System.Net.Http.Formatting.xml
+C:\Testing\BankProductBundles\BankProductBundles\bin\System.Web.Http.xml
+C:\Testing\BankProductBundles\BankProductBundles\bin\System.Web.Http.WebHost.xml
+C:\Testing\BankProductBundles\BankProductBundles\obj\Debug\BankProductBundles.dll
+C:\Testing\BankProductBundles\BankProductBundles\obj\Debug\BankProductBundles.pdb
+C:\Testing\BankProductBundles\BankProductBundles\bin\BankProductBundles.XML
+C:\Testing\BankProductBundles\BankProductBundles\obj\Debug\BankProductBundles.csprojResolveAssemblyReference.cache
